@@ -9,7 +9,7 @@
 </head>
 <body>
   <script>
-    var socket = io('http://localhost:8080', {query: 'userId=123'});
+    var socket = io('http://localhost:8080', {query: 'jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Y2FiNDU1OTBjMTMxZjQ0YzRlMjcxMGUiLCJpYXQiOjE1NTU0MTQ5NTcsImV4cCI6MTU1ODAwNjk1N30.myHJAMGZDVO8eE2Ipne_fmR9BwwrPHle-gepzUVzivQ'});
     socket.on('notification', (message) => {
       console.log(message);
     });
