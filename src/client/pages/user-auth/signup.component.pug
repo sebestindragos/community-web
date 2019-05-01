@@ -1,0 +1,47 @@
+main.container
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      h1.mt-3 Sign Up for a new Community account
+      form.my-5([formGroup]="form", (submit)="register()" novalidate)
+        div.form-group
+          label(for="email") Email address:
+          input#email.form-control(
+            type="email", name="email", [formControl]="form.controls.email",
+            form-field-validator, [control]="form.controls.email"
+          )
+          div.invalid-feedback( form-feedback, [control]="form.controls.email" )
+
+        div.form-group
+          label(for="password") Password:
+          input#password.form-control(
+            type="password", name="password", [formControl]="form.controls.password",
+            form-field-validator, [control]="form.controls.password"
+          )
+          div.invalid-feedback( form-feedback, [control]="form.controls.password" )
+          small.form-text.text-muted Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+        div.form-group
+          label(for="firstname") Firstname:
+          input#firstname.form-control(
+            type="text", name="firstname", [formControl]="form.controls.firstname",
+            form-field-validator, [control]="form.controls.firstname"
+          )
+          div.invalid-feedback( form-feedback, [control]="form.controls.firstname" )
+        div.form-group
+          label(for="lastname") Lastname:
+          input#lastname.form-control(
+            type="text", name="lastname", [formControl]="form.controls.lastname",
+            form-field-validator, [control]="form.controls.lastname"
+          )
+          div.invalid-feedback( form-feedback, [control]="form.controls.lastname" )
+
+        div.alert(
+          *ngIf="resultMessage",
+          [ngClass]=`{
+            'alert-success': !resultIsError,
+            'alert-danger': resultIsError
+          }`
+        ) {{resultMessage}}
+
+        button.btn.btn-primary.btn-block(
+          type="submit", [disabled]="!form.valid"
+        ) Sign Up

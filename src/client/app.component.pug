@@ -1,1 +1,52 @@
+nav.navbar.navbar-expand-md.navbar-dark.bg-dark
+  a.navbar-brand(routerLink="/") Community
+  button.navbar-toggler(
+    data-toggle="collapse",
+    data-target="#navbarSupportedContent",
+    aria-controls="navbarSupportedContent",
+    aria-expanded="false",
+    aria-label="Toggle navigation"
+  )
+    span.navbar-toggler-icon
+  div.collapse.navbar-collapse#navbarSupportedContent
+    ul.navbar-nav.ml-auto(
+      *ngIf="!hasSession()"
+    )
+      li.nav-item
+        a.nav-link(routerLink="/")
+          span
+            i.fas.fa-home
+          span.ml-1 Home
+      li.nav-item
+        a.nav-link(routerLink="/login")
+          span
+            i.fas.fa-walking
+          span.ml-1 Login
+      li.nav-item
+        a.nav-link(routerLink="/signup")
+          span
+            i.fas.fa-user-plus
+          span.ml-1 Signup
+    ul.navbar-nav.ml-auto(
+      *ngIf="profile$ | async as user"
+    )
+      li.nav-item
+        a.nav-link(routerLink="/")
+          span
+            i.fas.fa-user
+          span.ml-1 {{user.profile.firstname}}
+      li.nav-item
+        a.nav-link((click)="logout() && $event.preventDefault()")
+          span
+            i.fas.fa-sign-out-alt
+          span.ml-1 Logout
+
+
 router-outlet
+
+footer.container-fluid.mt-3
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      community-copyright-footer
+
+

@@ -20,6 +20,8 @@ import { CarouselWizardComponent } from './component/wizard-host/carousel-wizard
 import { AccordionWizardComponent } from './component/wizard-host/accordion-wizard/accordion-wizard.component';
 import { WizardBulletOutletComponent } from './component/wizard-host/bullet-outlet/bullet-outlet.component';
 import { InfiniteScrollDirective } from './component/infinite-scroll.directive';
+import { FormValidationFeedbackDirective } from './forms/form-feedback.directive';
+import { FormFieldValidatorDirective } from './forms/form-field-validator.directive';
 
 @NgModule({
   imports: [
@@ -38,6 +40,8 @@ import { InfiniteScrollDirective } from './component/infinite-scroll.directive';
     DynamicComponentHostDirective,
     FilePickerDirective,
     InfiniteScrollDirective,
+    FormValidationFeedbackDirective,
+    FormFieldValidatorDirective,
 
     // wizard
     WizardHostComponent,
@@ -55,6 +59,8 @@ import { InfiniteScrollDirective } from './component/infinite-scroll.directive';
     DynamicComponentHostDirective,
     FilePickerDirective,
     InfiniteScrollDirective,
+    FormValidationFeedbackDirective,
+    FormFieldValidatorDirective,
 
     // wizard
     WizardHostComponent,

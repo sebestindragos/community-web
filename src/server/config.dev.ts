@@ -11,7 +11,9 @@ export default function config (app: express.Express) {
   })); // cache node modules
 
   // angular app
-  app.get('/', (req, res) => {
+  app.get([
+    '/', '/404', '/signup', '/confirm', '/login'
+  ], (req, res) => {
     req;
     res.sendFile(path.join(__dirname, '../client/index.html'));
   });

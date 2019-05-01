@@ -13,10 +13,19 @@ import { AuthGuard } from './common/auth.guard';
 import { NotFoundPageComponent } from './not-found/page.component';
 import { HomePageComponent } from './home/page.component';
 import { HomePageResolver } from './home/page.resolver';
+import { SignupPageComponent } from './user-auth/signup.component';
+import { ConfirmPageComponent } from './user-auth/confirm.component';
+import { LoginPageComponent } from './user-auth/login.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
   resolve: {pageData: HomePageResolver}
+}, {
+  path: 'signup', component: SignupPageComponent
+}, {
+  path: 'confirm', component: ConfirmPageComponent
+}, {
+  path: 'login', component: LoginPageComponent
 }, {
   path: '404', component: NotFoundPageComponent
 }, {
@@ -39,10 +48,13 @@ export const ROUTES: Route[] = [{
   declarations: [
     // pages
     NotFoundPageComponent,
-    HomePageComponent
+    HomePageComponent,
+    SignupPageComponent,
+    ConfirmPageComponent,
+    LoginPageComponent
   ],
   exports: [
-
+    CommonModule
   ],
   entryComponents: [
   ]

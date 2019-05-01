@@ -1,19 +1,8 @@
-community-navbar
-  div.col-12.col-md-9.col-lg-6.mx-auto.px-0
-    div.d-flex.justify-content-between
-      community-navbar-logo-button
-      community-navbar-user-menu
-
 main.container( community-json-ld, [schema]="SCHEMA" )
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto
       ng-container(*ngTemplateOutlet="_tfPage")
 
-footer.container-fluid.mt-3
-  div.row
-    div.col-12.col-md-9.col-lg-6.mx-auto
-      community-copyright-footer
-
 ng-template(#_tfPage)
-  h1 Bun venit!
+  h1 Welcome to Community!
 

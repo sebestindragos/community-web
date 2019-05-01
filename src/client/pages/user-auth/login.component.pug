@@ -1,0 +1,32 @@
+main.container
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      h1.mt-3 Login to Community
+      form.my-5([formGroup]="form", (submit)="login()" novalidate)
+        div.form-group
+          label(for="email") Email address:
+          input#email.form-control(
+            type="email", name="email", [formControl]="form.controls.email",
+            form-field-validator, [control]="form.controls.email"
+          )
+          div.invalid-feedback( form-feedback, [control]="form.controls.email" )
+
+        div.form-group
+          label(for="password") Password:
+          input#password.form-control(
+            type="password", name="password", [formControl]="form.controls.password",
+            form-field-validator, [control]="form.controls.password"
+          )
+          div.invalid-feedback( form-feedback, [control]="form.controls.password" )
+
+        div.alert(
+          *ngIf="resultMessage",
+          [ngClass]=`{
+            'alert-success': !resultIsError,
+            'alert-danger': resultIsError
+          }`
+        ) {{resultMessage}}
+
+        button.btn.btn-primary.btn-block(
+          type="submit", [disabled]="!form.valid"
+        ) Login
