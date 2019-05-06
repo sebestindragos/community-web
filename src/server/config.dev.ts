@@ -12,7 +12,8 @@ export default function config (app: express.Express) {
 
   // angular app
   app.get([
-    '/', '/404', '/signup', '/confirm', '/login'
+    '/', '/404', '/signup', '/confirm', '/login',
+    '/notifications'
   ], (req, res) => {
     req;
     res.sendFile(path.join(__dirname, '../client/index.html'));

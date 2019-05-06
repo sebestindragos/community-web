@@ -16,6 +16,7 @@ import { HomePageResolver } from './home/page.resolver';
 import { SignupPageComponent } from './user-auth/signup.component';
 import { ConfirmPageComponent } from './user-auth/confirm.component';
 import { LoginPageComponent } from './user-auth/login.component';
+import { NotificationsPageComponent } from './notifications/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -26,6 +27,8 @@ export const ROUTES: Route[] = [{
   path: 'confirm', component: ConfirmPageComponent
 }, {
   path: 'login', component: LoginPageComponent
+}, {
+  path: 'notifications', component: NotificationsPageComponent
 }, {
   path: '404', component: NotFoundPageComponent
 }, {
@@ -51,7 +54,8 @@ export const ROUTES: Route[] = [{
     HomePageComponent,
     SignupPageComponent,
     ConfirmPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    NotificationsPageComponent
   ],
   exports: [
     CommonModule

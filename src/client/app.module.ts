@@ -15,6 +15,7 @@ import { ToastNotificationsService } from './util/component/toast-notifications/
 import {
   ENVIRONMENT_CONFIG, IEnvironmentConfig, IServerConfig
 } from './environment.config';
+import { CoreModule } from './core/core.module';
 
 export function init (
   http: HttpClient,
@@ -38,6 +39,7 @@ export function init (
 
     PagesModule,
     UtilModule,
+    CoreModule,
 
     RouterModule.forRoot([
       ...CORE_ROUTES

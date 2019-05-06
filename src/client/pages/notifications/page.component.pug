@@ -1,0 +1,7 @@
+main.container
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      h1.h2.mt-3 Notifications (#[new-notifications-counter])
+      hr
+      div(*ngFor="let notification of notifications$ | async")
+        notification-item([notification]="notification")

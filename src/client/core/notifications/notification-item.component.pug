@@ -1,0 +1,13 @@
+div.shell((click)="markSeen()", [ngClass]="{'unseen': !notification.seen}")
+  div.content
+    div(*ngIf="notification.type === 0")
+    div(*ngIf="notification.type === 1")
+      div {{notification.data.fromUser.firstname}} {{notification.data.fromUser.lastname}} wants to connect with you.
+      div.controls.d-flex
+        button.btn.btn-sm.btn-success Accept
+        button.btn.btn-sm.btn-danger.ml-2 Reject
+    div(*ngIf="notification.type === 2")
+      div {{notification.data.responder.firstname}} {{notification.data.responder.lastname}} accepted your friend request.
+  small.text-muted.date.
+    {{notification.createdAt | date}}
+

@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { setLocale } from 'exceptional.js';
 import { SessionService } from './core/users/session.service';
 import { UsersApiService } from './core/users/usersAPI.service';
+import { NotificationsService } from './core/notifications/notifications.service';
 
 @Component({
   moduleId: module.id,
@@ -27,7 +28,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private _router: Router,
     @Inject(PLATFORM_ID) private _platformId: Object,
     private _session: SessionService,
-    private _usersApi: UsersApiService
+    private _usersApi: UsersApiService,
+    private _notificationsApi: NotificationsService
   ) {
     this.profile$ = this._session.profile$;
   }
@@ -50,6 +52,8 @@ export class AppComponent implements OnInit, OnDestroy {
       if (token) {
         const result: any = await this._usersApi.getOwnProfile(token).toPromise();
         this._session.setProfile(result.user);
+        await this._notificationsApi.loadUnseenCount(token).toPromise();
+        this._notificationsApi.startLiveNotifications(token);
       } else {
         this._session.setProfile(undefined);
       }

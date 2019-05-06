@@ -36,6 +36,13 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
             i.fas.fa-user
           span.ml-1 {{user.profile.firstname}}
       li.nav-item
+        a.nav-link(routerLink="/notifications")
+          span
+            i.fas.fa-bell
+          span.ml-1 Notifications
+          span.text-primary.ml-1
+            new-notifications-counter
+      li.nav-item
         a.nav-link((click)="logout() && $event.preventDefault()")
           span
             i.fas.fa-sign-out-alt
