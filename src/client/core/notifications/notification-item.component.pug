@@ -1,11 +1,14 @@
-div.shell((click)="markSeen()", [ngClass]="{'unseen': !notification.seen}")
-  div.content
+div.shell.my-1.d-flex.flex-column.justify-content-between(
+  (click)="markSeen()", [ngClass]="{'unseen': !notification.seen}"
+)
+  div.content.d-flex.flex-column.justify-content-center.h-100
     div(*ngIf="notification.type === 0")
+      span {{notification.data.message}}
     div(*ngIf="notification.type === 1")
       div {{notification.data.fromUser.firstname}} {{notification.data.fromUser.lastname}} wants to connect with you.
       div.controls.d-flex
-        button.btn.btn-sm.btn-success Accept
-        button.btn.btn-sm.btn-danger.ml-2 Reject
+        button.btn.btn-sm.btn-success((click)="respondToFriendRequest(true)") Accept
+        button.btn.btn-sm.btn-danger.ml-2((click)="respondToFriendRequest(false)") Reject
     div(*ngIf="notification.type === 2")
       div {{notification.data.responder.firstname}} {{notification.data.responder.lastname}} accepted your friend request.
   small.text-muted.date.

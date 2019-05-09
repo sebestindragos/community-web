@@ -1,0 +1,11 @@
+main.container
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      div.form-group.my-3
+        input.form-control(#search)
+
+      div.d-flex(*ngFor="let user of results$ | async")
+        span.profile-img
+          i.fas.fa-user
+        span.name.ml-1
+          a([routerLink]="['/u', user._id]") {{user.profile.firstname}} {{user.profile.lastname}}

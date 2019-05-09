@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ENVIRONMENT_CONFIG, IEnvironmentConfig } from '../../environment.config';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Injectable({
@@ -53,6 +53,34 @@ export class UsersApiService {
         'Authorization': `Bearer ${token}`
       }
     }).pipe(catchError(err => throwError(err.error)));
+  }
+
+  /**
+   * Search users.
+   */
+  search (term: string, token: string) {
+    const url = `${this.__getApiHost()}/users?q=${encodeURIComponent(term)}`;
+    return this._httpClient.get<any[]>(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .pipe(map((result: any) => result.value))
+    .pipe(catchError(err => throwError(err.error)));
+  }
+
+  /**
+   * Get own user profile.
+   */
+  getUserProfile (id: string, token: string) {
+    const url = `${this.__getApiHost()}/users/${id}`;
+    return this._httpClient.get(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .pipe(map((result: any) => result.value))
+    .pipe(catchError(err => throwError(err.error)));
   }
 
   /**

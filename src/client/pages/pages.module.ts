@@ -17,6 +17,8 @@ import { SignupPageComponent } from './user-auth/signup.component';
 import { ConfirmPageComponent } from './user-auth/confirm.component';
 import { LoginPageComponent } from './user-auth/login.component';
 import { NotificationsPageComponent } from './notifications/page.component';
+import { UserProfilePageComponent } from './profile/page.component';
+import { UserSearchPageComponent } from './search/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -29,6 +31,10 @@ export const ROUTES: Route[] = [{
   path: 'login', component: LoginPageComponent
 }, {
   path: 'notifications', component: NotificationsPageComponent
+}, {
+  path: 'u/:id', component: UserProfilePageComponent
+}, {
+  path: 'search', component: UserSearchPageComponent
 }, {
   path: '404', component: NotFoundPageComponent
 }, {
@@ -55,7 +61,9 @@ export const ROUTES: Route[] = [{
     SignupPageComponent,
     ConfirmPageComponent,
     LoginPageComponent,
-    NotificationsPageComponent
+    NotificationsPageComponent,
+    UserProfilePageComponent,
+    UserSearchPageComponent
   ],
   exports: [
     CommonModule

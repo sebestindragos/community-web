@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { SessionService } from '../users/session.service';
 import { NotificationsService } from './notifications.service';
 import { take } from 'rxjs/operators';
+import { SocialService } from '../social/social.service';
 
 @Component({
   moduleId: module.id,
@@ -19,7 +20,8 @@ export class NotificationItemComponent implements OnInit {
    */
   constructor (
     private _session: SessionService,
-    private _notificationService: NotificationsService
+    private _notificationService: NotificationsService,
+    private _socialService: SocialService
   ) { }
 
   /**
@@ -41,6 +43,21 @@ export class NotificationItemComponent implements OnInit {
       }
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  /**
+   * Respond to a friend request.
+   */
+  async respondToFriendRequest (confirm: boolean) {
+    try {
+      const token = await this._session.jwt$.pipe(take(1)).toPromise();
+      if (!token) return;
+      await this._socialService.updateFriendRequest(
+        this.notification.data.requestId, confirm, token
+      ).toPromise();
+    } catch (error) {
+      console.log(error);
     }
   }
 }

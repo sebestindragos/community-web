@@ -36,6 +36,11 @@ nav.navbar.navbar-expand-md.navbar-dark.bg-dark
             i.fas.fa-user
           span.ml-1 {{user.profile.firstname}}
       li.nav-item
+        a.nav-link(routerLink="/search")
+          span
+            i.fas.fa-search
+          span.ml-1 Search
+      li.nav-item
         a.nav-link(routerLink="/notifications")
           span
             i.fas.fa-bell
