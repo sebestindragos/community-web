@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import { IEnvironmentConfig, ENVIRONMENT_CONFIG } from '../../environment.config';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
-import { throwError } from 'rxjs';
+import { throwError, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -68,6 +68,71 @@ export class SocialService {
       }
     })
     .pipe(map((result: any) => result.friendsList))
+    .pipe(catchError(err => throwError(err.error)));
+  }
+
+  /**
+   * Create wall post.
+   */
+  createWallPost (text: string, token: string) {
+    const url = `${this.__getApiHost()}/social/wall-post`;
+    return this._httpClient.post<any>(url, {
+      text
+    }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .pipe(map((result: any) => result.wallPost))
+    .pipe(catchError(err => throwError(err.error)));
+  }
+
+  /**
+   * Get wall posts.
+   */
+  getWallPosts (
+    params: {
+      fromId?: string,
+      limit: number
+    },
+    token: string
+  ): Observable<any[]> {
+    const url = `${this.__getApiHost()}/social/wall-post`;
+    return this._httpClient.get<any[]>(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      params: {
+        fromId: params.fromId || '',
+        limit: String(params.limit)
+      }
+    })
+    .pipe(map((result: any) => result.wallPosts))
+    .pipe(catchError(err => throwError(err.error)));
+  }
+
+  /**
+   * Get user posts.
+   */
+  getUserPosts (
+    params: {
+      userId: string,
+      fromId?: string,
+      limit: number
+    },
+    token: string
+  ): Observable<any[]> {
+    const url = `${this.__getApiHost()}/social/user/${params.userId}/wall-post`;
+    return this._httpClient.get<any[]>(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      },
+      params: {
+        fromId: params.fromId || '',
+        limit: String(params.limit)
+      }
+    })
+    .pipe(map((result: any) => result.wallPosts))
     .pipe(catchError(err => throwError(err.error)));
   }
 

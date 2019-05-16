@@ -9,8 +9,9 @@ main.container
           div#buttons
             button.btn.btn-sm.btn-primary(*ngIf="!isFriend", (click)="addFriend()") Connect
             button.btn.btn-sm.btn-danger(*ngIf="isFriend", (click)="removeFriend()") Remove Friend
-        div
+        div(infinite-scroll, (scroll)="loadMore()")
           h4 Activity
           hr
-          span.text-center
+          wall-post-list([wallPosts]="wallPosts")
+          span.text-center(*ngIf="wallPosts.length === 0")
             i.fas.fa-spinner.fa-spin

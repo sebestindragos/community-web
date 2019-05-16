@@ -18,9 +18,14 @@ import { SocialService } from '../../core/social/social.service';
   ]
 })
 export class UserProfilePageComponent {
+  private _cursor = ''; // id of the last anoucement
+  private _canLoadMore = true;
+  private _userId: string;
+
   public hasLoaded = false;
   public isFriend = false;
   public user: any;
+  public wallPosts: any[] = [];
 
   /**
    * Class constructor.
@@ -30,7 +35,9 @@ export class UserProfilePageComponent {
     private _session: SessionService,
     private _socialService: SocialService,
     private _activatedRoute: ActivatedRoute
-  ) {}
+  ) {
+    this._userId = this._activatedRoute.snapshot.params['id'];
+  }
 
   /**
    * Angular lifecycle hooks.
@@ -40,12 +47,13 @@ export class UserProfilePageComponent {
       const token = await this._session.jwt$.pipe(take(1)).toPromise();
       if (!token) return;
 
-      let userId = this._activatedRoute.snapshot.params['id'];
-      this.user = await this._usersApi.getUserProfile(userId, token).toPromise();
+      this.user = await this._usersApi.getUserProfile(this._userId, token).toPromise();
 
       let friendList = await this._socialService.getFriendList(token).toPromise();
-      this.isFriend = friendList.friendIds.findIndex((f: string) => f === userId) !== -1;
+      this.isFriend = friendList.friendIds.findIndex((f: string) => f === this._userId) !== -1;
       this.hasLoaded = true;
+
+      this.loadMore();
     } catch (error) {
       console.error(error);
     }
@@ -79,6 +87,28 @@ export class UserProfilePageComponent {
       this.isFriend = false;
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  /**
+   * Load next batch of polls.
+   */
+  async loadMore () {
+    if (this._canLoadMore) {
+      this._canLoadMore = false;
+      let token = await this._session.jwt$.pipe(take(1)).toPromise();
+      let batch = await this._socialService.getUserPosts({
+        userId: this._userId,
+        fromId: this._cursor,
+        limit: 10
+      }, token || '').toPromise();
+
+      if (batch.length > 0) {
+        console.log('batch size', batch.length);
+        this._canLoadMore = true;
+        this._cursor = batch[batch.length - 1]._id;
+        this.wallPosts = this.wallPosts.concat(batch);
+      }
     }
   }
 }

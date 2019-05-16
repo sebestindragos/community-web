@@ -9,7 +9,7 @@ import { map, debounceTime, filter } from 'rxjs/operators';
  * @author Dragos Sebestin
  */
 @Directive({
-  selector: '[community-infinite-scroll]'
+  selector: '[infinite-scroll]'
 })
 export class InfiniteScrollDirective {
   @Output() public scroll = new EventEmitter<void>();

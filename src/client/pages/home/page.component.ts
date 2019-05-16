@@ -4,6 +4,10 @@ import { Title, Meta } from '@angular/platform-browser';
 
 import { ENVIRONMENT_CONFIG, IEnvironmentConfig } from '../../environment.config';
 import { ErrorUtil } from '../../util/helpers/errorUtil';
+import { SessionService } from '../../core/users/session.service';
+import { SocialService } from '../../core/social/social.service';
+import { Observable } from 'rxjs';
+import { map, switchMap, take } from 'rxjs/operators';
 
 /**
  * Component used for displaying the home page.
@@ -16,10 +20,16 @@ import { ErrorUtil } from '../../util/helpers/errorUtil';
   styleUrls: [
     'page.component.css'
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class HomePageComponent implements OnInit, OnDestroy {
+  private _cursor = ''; // id of the last anoucement
+  private _canLoadMore = true;
+
   public SCHEMA = {};
+  public isLoggedIn$: Observable<boolean>;
+  public newPostText = '';
+  public wallPosts: any[] = [];
 
   /**
    * Class constructor.
@@ -29,8 +39,12 @@ export class HomePageComponent implements OnInit, OnDestroy {
     @Inject(PLATFORM_ID) private _platformId: Object,
     @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
     private _title: Title,
-    private _meta: Meta
-  ) { }
+    private _meta: Meta,
+    private _session: SessionService,
+    private _socialService: SocialService
+  ) {
+    this.isLoggedIn$ = this._session.jwt$.pipe(map(jwt => !!jwt));
+  }
 
   /**
    * Angular lifecycle hooks
@@ -64,12 +78,46 @@ export class HomePageComponent implements OnInit, OnDestroy {
           'url': this._env.baseUrl
         };
       }
+      this.loadMore();
     } catch (err) {
       this._errors.dispatch(err);
     }
   }
 
   ngOnDestroy () {
+  }
+
+  /**
+   * Create a new post.
+   */
+  createPost () {
+    this._session.jwt$.pipe(switchMap(
+      token => this._socialService.createWallPost(this.newPostText, token || '')
+    )).subscribe((newPost: any) => {
+      this.newPostText = '';
+      this.wallPosts.unshift(newPost);
+    });
+  }
+
+  /**
+   * Load next batch of polls.
+   */
+  async loadMore () {
+    if (this._canLoadMore) {
+      this._canLoadMore = false;
+      let token = await this._session.jwt$.pipe(take(1)).toPromise();
+      let batch = await this._socialService.getWallPosts({
+        fromId: this._cursor,
+        limit: 10
+      }, token || '').toPromise();
+
+      if (batch.length > 0) {
+        console.log('batch size', batch.length);
+        this._canLoadMore = true;
+        this._cursor = batch[batch.length - 1]._id;
+        this.wallPosts = this.wallPosts.concat(batch);
+      }
+    }
   }
 
   /**
